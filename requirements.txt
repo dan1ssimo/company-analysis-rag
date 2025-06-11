@@ -1,0 +1,10 @@
+qdrant-client>=1.6.0
+sentence-transformers>=2.2.0
+PyPDF2>=3.0.0
+torch>=1.11.0
+transformers>=4.21.0
+numpy>=1.21.0
+pathlib2>=2.3.7
+typing-extensions>=4.0.0
+dataclasses>=0.6
+openai>=1.0.0
