@@ -1,0 +1,105 @@
+# Git файлы
+.git
+.gitignore
+.gitattributes
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+.pytest_cache/
+.coverage
+htmlcov/
+.tox/
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+.hypothesis/
+
+# Virtual environments
+.venv/
+venv/
+ENV/
+env/
+.env
+
+# IDE файлы
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# Логи
+*.log
+logs/
+log/
+
+# Временные файлы
+*.tmp
+*.temp
+.tmp/
+temp/
+
+# Документация
+README.md
+docs/
+*.md
+
+# Docker файлы (избегаем рекурсии)
+Dockerfile*
+.dockerignore
+docker-compose*.yml
+
+# Конфигурационные файлы разработки
+.env.*
+config/local.py
+settings/local.py
+
+# Файлы тестов (если они есть)
+tests/
+test_*.py
+*_test.py
+
+# Кэш моделей (если они кэшируются локально)
+.cache/
+models/
+model_cache/
+
+# Файлы данных для разработки (кроме примеров)
+*.csv
+*.json
+*.xml
+
+# Системные файлы
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db 

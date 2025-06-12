@@ -24,9 +24,10 @@ services:
       - qdrant
     environment:
       - QDRANT_URL=http://qdrant:6333
-      - OPENAI_API_KEY=${OPENAI_API_KEY}
+      - OPENROUTER_API_KEY=${OPENROUTER_API_KEY}
     volumes:
       - ./data:/app/data
+      - .:/app
 
 volumes:
   qdrant_storage: 
