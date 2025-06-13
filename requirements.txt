@@ -10,3 +10,4 @@ sentence-transformers>=2.2.0
 torch==2.7.1
 transformers==4.52.4
 python-dotenv>=1.0.0
+dadata==22.1.0

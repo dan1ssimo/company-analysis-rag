@@ -22,4 +22,7 @@ COLLECTION_NAME = "my_documents"
 EMBEDDING_MODEL = 'deepvk/USER-bge-m3'
 CROSS_ENCODER_MODEL = "PitKoro/cross-encoder-ru-msmarco-passage"
 MAX_LENGTH = 512
-MAX_MEMORY_MESSAGES = 5 
+MAX_MEMORY_MESSAGES = 5
+
+# DaData settings
+DADATA_API_KEY = "4e2fc80570af0378e129e03ce4acb60bda959c20" 
