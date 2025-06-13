@@ -1,12 +1,12 @@
 dataclasses==0.6
 numpy==2.3.0
-openai==1.86.0
+openai>=1.0.0
 pathlib2==2.3.7.post1
-pydantic==2.11.5
+pydantic>=2.0.0
 pydantic_core==2.33.2
 PyPDF2==3.0.1
-qdrant-client==1.14.2
-sentence-transformers==4.1.0
+qdrant-client>=1.7.0
+sentence-transformers>=2.2.0
 torch==2.7.1
 transformers==4.52.4
-langgraph==0.4.8
+python-dotenv>=1.0.0
