@@ -45,13 +45,13 @@ def main():
         # Обработка вызова инструмента
         if raw_message.tool_calls:
             for tool_call in raw_message.tool_calls:
-                if tool_call.function.name == "get_company_info":
+                if tool_call.function.name == "get_company_summary":
                     # Получаем параметры вызова
                     args = json.loads(tool_call.function.arguments)
                     inn = args.get("inn")
                     
                     # Получаем информацию о компании
-                    company_info = dadata_service.get_company_info(inn)
+                    company_info = dadata_service.get_company_summary(inn)
                     if company_info:
                         company_context = f"""
                         Информация о компании:

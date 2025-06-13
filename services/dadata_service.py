@@ -5,7 +5,7 @@ class DadataService:
     def __init__(self, api_key: str):
         self.client = Dadata(api_key)
     
-    def get_company_info(self, inn: str) -> dict:
+    def get_company_summary(self, inn: str) -> dict:
         """
         Получает информацию о компании по ИНН
         

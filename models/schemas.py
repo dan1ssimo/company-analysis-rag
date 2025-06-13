@@ -13,8 +13,8 @@ class ResponseFormat(BaseModel):
 COMPANY_SEARCH_TOOL = {
     "type": "function",
     "function": {
-        "name": "get_company_info",
-        "description": "Получает информацию о компании по ИНН. Вызывай этот инструмент если пользователь запросил информацию о компании по ИНН.",
+        "name": "get_company_summary",
+        "description": "Получает информацию о компании по ИНН. Вызывай этот инструмент если пользователь запросил краткую сводку или общую информацию о компании по ИНН.",
         "parameters": {
             "type": "object",
             "properties": {
