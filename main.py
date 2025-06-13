@@ -4,17 +4,33 @@ import os
 from pydantic import BaseModel, Field
 from qdrant_client import QdrantClient
 from sentence_transformers import SentenceTransformer
-from typing import List, Dict
+from typing import List, Dict, Deque
+from collections import deque
 
 
 class Step(BaseModel):
-    step: str = Field(description="The step of the reasoning process")
-    reasoning: str = Field(description="The reasoning process of the step")
-    sources: list[str] = Field(description="The sources of the step")
+    step: str = Field(description="Шаг в процессе рассуждения")
+    reasoning: str = Field(description="Рассуждение на шаге")
+    sources: list[str] = Field(description="Источники, на которых основывается шаг")
 
 class ResponseFormat(BaseModel):
-    steps: list[Step] = Field(description="The steps of the reasoning process")
-    final_answer: str = Field(description="The final answer to the user's question")
+    steps: list[Step] = Field(description="Шаги в процессе рассуждения")
+    final_answer: str = Field(description="Итоговый ответ на вопрос пользователя")
+
+
+class ConversationMemory:
+    def __init__(self, max_messages: int = 5):
+        self.max_messages = max_messages
+        self.messages: Deque[Dict] = deque(maxlen=max_messages)
+    
+    def add_message(self, role: str, content: str):
+        self.messages.append({"role": role, "content": content})
+    
+    def get_messages(self) -> List[Dict]:
+        return list(self.messages)
+    
+    def clear(self):
+        self.messages.clear()
 
 
 class RAGClient:
@@ -24,19 +40,20 @@ class RAGClient:
         self.collection_name = collection_name
 
     def search_relevant_documents(self, query: str, limit: int = 3) -> List[Dict]:
-        query_vector = self.model.encode(query).tolist()
-        search_result = self.qdrant_client.search(
+        query_vector = self.model.encode([query])[0].tolist()
+        search_result = self.qdrant_client.query_points(
             collection_name=self.collection_name,
-            query_vector=query_vector,
-            limit=limit
+            query=query_vector,
+            limit=limit,
+            with_payload=True
         )
         return [
             {
-                "text": hit.payload.get("text", ""),
-                "source": hit.payload.get("source", ""),
+                "text": hit.payload["text"],
+                "source": hit.payload["source"],
                 "score": hit.score
             }
-            for hit in search_result
+            for hit in search_result.points
         ]
 
 
@@ -47,6 +64,7 @@ if __name__ == "__main__":
     )
     
     rag_client = RAGClient()
+    memory = ConversationMemory()
 
     while True:
         prompt = input("Enter your question: ")
@@ -71,16 +89,22 @@ if __name__ == "__main__":
         Вопрос: {prompt}
         """
         
+        # Добавляем сообщение пользователя в память
+        memory.add_message("user", user_prompt)
+        
+        # Формируем список сообщений для API
+        messages = [{"role": "system", "content": system_prompt}] + memory.get_messages()
+        
         completion = client.beta.chat.completions.parse(
             model="gpt-4o-mini",
-            messages=[
-                {"role": "system", "content": system_prompt},
-                {"role": "user", "content": user_prompt}
-            ],
+            messages=messages,
             response_format=ResponseFormat
         )
         message = completion.choices[0].message
         if message.parsed:
+            # Добавляем ответ ассистента в память
+            memory.add_message("assistant", message.parsed.final_answer)
+            
             print("\nSteps:")
             for step in message.parsed.steps:
                 print(f"\nStep: {step.step}")
